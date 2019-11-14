@@ -3,6 +3,9 @@
 #include <joystick.h>
 #include <Position.h>
 
+int state = 0;
+const int BUTTON = 23;
+bool locked = true;
 Drone::Drone(String ssid, String password)
 {
     this->ssid = ssid;
@@ -77,46 +80,49 @@ void Drone::ButtonPressed()
     }
 }
 
+
+
+    
+
+
 void Drone::loop()
 {
-    
+    if (digitalRead(BUTTON) == LOW)
+    {
+        locked = !locked;
+        delay(300);
+    }
+    if (locked)
+    {
+        Serial.println("0");
+    }
+    else
+    {
+        Serial.println("1");
+    }
+
     // Using Position object to retrieve information
     
     Position joystickPosition = this->joystick->getPosition();
-    //Position joystick1Position = this->joystick->getPosition();
-    
-    if (joystickPosition.x != 0)
-    {
-        if (joystickPosition.y != 0)
-        {
-        Serial.print(joystickPosition.x);
-        Serial.print(" ");
-        Serial.println(joystickPosition.y);
-        }
-    }
+    //Position joystick1Position = this->joystick1->getPosition();
+
+    if(state == 0){
 
     if(joystickPosition.x > 1000){
-        this->sendCommand("forward 250");
+        this->sendCommand("forward 50");
     }
     if(joystickPosition.x < -1000){
-        this->sendCommand("back 250");
+        this->sendCommand("back 50");
     }
     if(joystickPosition.y > 1000){
-        this->sendCommand("right 250");
+        this->sendCommand("right 50");
     }
     if(joystickPosition.y < -1000){
-        this->sendCommand("left 250");
+        this->sendCommand("left 50");
+    }
     }
 
-
-
-    
-    
-    
     // Using joystick methods
-    Serial.print(this->joystick->getX());
-    Serial.print(" ");
-    Serial.println(this->joystick->getY());
     
     
     //sendmessage("joystickPosition")

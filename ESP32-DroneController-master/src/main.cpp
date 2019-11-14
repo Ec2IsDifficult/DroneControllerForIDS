@@ -12,27 +12,31 @@ Joystick joystick(5, 34, 35); // pins: btn, x, y
 
 void setup()
 {
-  Serial.begin(9600);
+  pinMode(BUTTON, INPUT);
 
+  Serial.begin(9600);
+  
   drone.joystick = &joystick;
-  //drone.joystick = &joystick1; 
+  //drone.joystick = &joystick1;
 
   for (size_t i = 0; i < 5; i++)
   {
     Serial.println(i);
     delay(1000);
-  }
+    }
 
-  joystick.addButtonListener(&drone);
-  //joystick1.addButtonListener(&drone);
-  drone.setIp ("192.168.10.1");
-  drone.connect();
+    joystick.addButtonListener(&drone);
+    //joystick1.addButtonListener(&drone);
+    drone.setIp("192.168.10.1");
+    drone.connect();
   
 }
 
 void loop()
 {
+  
   joystick.loop();
   //joystick1.loop();
   drone.loop();
+
 } 
