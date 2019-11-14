@@ -63,13 +63,13 @@ void Drone::commandResponse(String response)
 
 void Drone::ButtonPressed()
 {
-    if (flying == false)
+        if (flying == false)
     {
         this->flying = true;
         Serial.println("takeoff");
         this->sendCommand("takeoff");
     }
-    else
+        else
     {
         Serial.println("land");
         this->sendCommand("land");
@@ -83,14 +83,15 @@ void Drone::loop()
     // Using Position object to retrieve information
     
     Position joystickPosition = this->joystick->getPosition();
+    //Position joystick1Position = this->joystick->getPosition();
     
     if (joystickPosition.x != 0)
     {
         if (joystickPosition.y != 0)
         {
-        /*Serial.print(joystickPosition.x);
+        Serial.print(joystickPosition.x);
         Serial.print(" ");
-        Serial.println(joystickPosition.y);*/
+        Serial.println(joystickPosition.y);
         }
     }
 
