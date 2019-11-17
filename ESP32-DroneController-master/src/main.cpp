@@ -5,9 +5,12 @@
 
 String ssid = "TELLO-FE2F93";
 String password = "";
+const int joystickbtn = 5;
+const int joystickX = 34;
+const int joystickY = 35;
 
 Drone drone(ssid, password);
-Joystick joystick(5, 34, 35); // pins: btn, x, y
+Joystick joystick(joystickbtn, joystickX, joystickY); // pins: btn, x, y
 //Joystick joystick1(14,12,13);
 
 void setup()

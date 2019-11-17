@@ -4,7 +4,9 @@
 #include <Position.h>
 
 
-const int BUTTON = 23;
+const int BUTTON_FLIP = 23;
+const int BUTTON_UP = 22;
+const int BUTTON_DOWN = 4;
 Drone::Drone(String ssid, String password)
 {
     this->ssid = ssid;
@@ -15,7 +17,9 @@ void Drone::connect()
 {
     Serial.println("drone begin");
     //Serial.begin(9600);
-    pinMode(BUTTON, INPUT);
+    pinMode(BUTTON_FLIP, INPUT);
+    pinMode(BUTTON_UP, INPUT);
+    pinMode(BUTTON_DOWN, INPUT);
     WiFi.mode(WIFI_STA);
     WiFi.begin(this->ssid.c_str(), this->password.c_str());
     if (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -81,18 +85,29 @@ void Drone::ButtonPressed()
 }
 
 
-
-    
-
-
 void Drone::loop()
 {
-    if (digitalRead(BUTTON) == LOW)
+    if (digitalRead(BUTTON_FLIP) == LOW)
     {
         Serial.println("Yes");
         this->sendCommand("flip b");
         delay(300);
     }
+
+    if (digitalRead(BUTTON_UP) == LOW) 
+    {
+        Serial.println("UP");
+        this->sendCommand("up 30");
+        delay(300);
+    }
+
+     if (digitalRead(BUTTON_DOWN) == LOW) 
+    {
+        Serial.println("DOWN");
+        this->sendCommand("down 30");
+        delay(300);
+    }
+
     
     // Using Position object to retrieve information
     
