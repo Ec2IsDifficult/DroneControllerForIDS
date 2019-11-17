@@ -12,7 +12,6 @@ Joystick joystick(5, 34, 35); // pins: btn, x, y
 
 void setup()
 {
-  pinMode(BUTTON, INPUT);
 
   Serial.begin(9600);
   

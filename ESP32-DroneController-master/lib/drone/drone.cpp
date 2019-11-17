@@ -3,9 +3,8 @@
 #include <joystick.h>
 #include <Position.h>
 
-int state = 0;
+
 const int BUTTON = 23;
-bool locked = true;
 Drone::Drone(String ssid, String password)
 {
     this->ssid = ssid;
@@ -16,6 +15,7 @@ void Drone::connect()
 {
     Serial.println("drone begin");
     //Serial.begin(9600);
+    pinMode(BUTTON, INPUT);
     WiFi.mode(WIFI_STA);
     WiFi.begin(this->ssid.c_str(), this->password.c_str());
     if (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -89,42 +89,51 @@ void Drone::loop()
 {
     if (digitalRead(BUTTON) == LOW)
     {
-        locked = !locked;
+        Serial.println("Yes");
+        this->sendCommand("flip b");
         delay(300);
     }
-    if (locked)
-    {
-        Serial.println("0");
-    }
-    else
-    {
-        Serial.println("1");
-    }
-
+    
     // Using Position object to retrieve information
     
     Position joystickPosition = this->joystick->getPosition();
     //Position joystick1Position = this->joystick1->getPosition();
 
-    if(state == 0){
 
-    if(joystickPosition.x > 1000){
+    if(joystickPosition.x > 1500){
         this->sendCommand("forward 50");
     }
-    if(joystickPosition.x < -1000){
+    if(joystickPosition.x < -1500){
         this->sendCommand("back 50");
     }
-    if(joystickPosition.y > 1000){
+    if(joystickPosition.y > 1500){
         this->sendCommand("right 50");
     }
-    if(joystickPosition.y < -1000){
+    if(joystickPosition.y < -1500){
         this->sendCommand("left 50");
     }
-    }
 
+    /* if (joystickPosition.x > 1000)  //up
+    {
+        this->sendCommand("rc 0 0 30 0");
+    }
+    if (joystickPosition.x < -1000)
+    {
+        this->sendCommand("rc 0 0 -30 0");
+    }
+    if (joystickPosition.y > 1000)
+    {
+        this->sendCommand("rc 0 0 0 20");
+    }
+    if (joystickPosition.y < -1000)
+    {
+        this->sendCommand("rc 0 0 0 -20");
+    }*/
+
+}
     // Using joystick methods
     
     
     //sendmessage("joystickPosition")
 
-}
+
